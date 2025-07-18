@@ -30,12 +30,14 @@ with st.form("enquiry_form"):
             st.error("Please fill in all fields.")
         else:
             recipient = brand_emails[brand]
-            mailto_link = (
-                f"mailto:{recipient}"
-                f"?subject=AXE Health Enquiry"
-                f"&body=Name: {name}%0AEmail: {email}%0AMessage: {message}"
+            subject = "AXE Health Enquiry"
+            body = f"Name: {name}%0AEmail: {email}%0AMessage: {message}"
+            mailto_link = f"mailto:{recipient}?subject={subject}&body={body}"
+
+            st.success("Thanks! Click the button below to open your email client.")
+            st.markdown(
+                f'<a href="{mailto_link}"><button style="background-color:#0073e6;color:white;padding:10px 20px;border:none;border-radius:5px;">📧 Send via Email</button></a>',
+                unsafe_allow_html=True
             )
-            st.success("Thank you! Click below to send your enquiry.")
-            st.markdown(f"[📧 Send Email]({mailto_link})", unsafe_allow_html=True)
 
 
