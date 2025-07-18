@@ -13,10 +13,7 @@ brand_emails = {
     "Praxhub": "praxhub@yourdomain.com"
 }
 
-# Logo (make sure logo.png is in the same folder)
-st.image("logo.png", width=140)
-
-# Form header
+# Title and instructions
 st.title("Enquire with AXE Health")
 st.write("Please select the brand you wish to contact. We'll route your message accordingly.")
 
@@ -40,4 +37,5 @@ with st.form("enquiry_form"):
             )
             st.success("Thank you! Click below to send your enquiry.")
             st.markdown(f"[📧 Send Email]({mailto_link})", unsafe_allow_html=True)
+
 
