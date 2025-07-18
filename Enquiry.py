@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AXE Health Enquiry</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --axe-blue: #003f7f;
-      --axe-light: #f5f9ff;
       --axe-accent: #0073e6;
+      --axe-bg: #f5f9ff;
     }
     * {
       box-sizing: border-box;
     }
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Inter', sans-serif;
-      background-color: var(--axe-light);
+      background: var(--axe-bg);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
     }
-    .form-card {
-      background: white;
+    .form-container {
+      background: #fff;
       padding: 40px;
       border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       max-width: 600px;
+      width: 100%;
     }
-    .form-card h1 {
+    .form-container h1 {
+      margin-top: 0;
       color: var(--axe-blue);
-      margin-bottom: 10px;
+      font-size: 24px;
     }
-    .form-card p {
+    .form-container p {
       color: #555;
       margin-bottom: 30px;
     }
     label {
       font-weight: 600;
-      margin-top: 20px;
       display: block;
+      margin: 20px 0 8px;
     }
     input, select, textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
+      font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 14px;
     }
     button {
-      background: var(--axe-accent);
-      color: white;
-      border: none;
-      padding: 14px;
-      font-weight: bold;
-      margin-top: 30px;
       width: 100%;
+      padding: 14px;
+      margin-top: 30px;
       font-size: 16px;
+      background: var(--axe-accent);
+      color: #fff;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.3s ease;
@@ -69,18 +69,17 @@
       background: #005bb5;
     }
     .logo {
-      display: block;
-      margin: 0 auto 30px;
       max-height: 60px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="form-card">
+  <div class="form-container">
     <img src="logo.png" alt="AXE Health Logo" class="logo">
     <h1>Enquire with AXE Health</h1>
-    <p>We’ll direct your message to the most relevant team.</p>
-    <form action="thank-you.html" method="GET" onsubmit="return handleSubmit(event)">
+    <p>Please select the brand you wish to contact. We'll route your message accordingly.</p>
+    <form id="enquiryForm">
       <label for="brand">Brand</label>
       <select id="brand" name="brand" required>
         <option value="">-- Select a brand --</option>
@@ -92,13 +91,13 @@
         <option value="praxhub">Praxhub</option>
       </select>
 
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" required />
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" required>
 
-      <label for="message">Message</label>
+      <label for="message">Your Message</label>
       <textarea id="message" name="message" rows="5" required></textarea>
 
       <button type="submit">Send Enquiry</button>
@@ -106,7 +105,7 @@
   </div>
 
   <script>
-    const brandToEmail = {
+    const brandEmails = {
       farmaforce: "farmaforce@yourdomain.com",
       pharmaprograms: "pharmaprograms@yourdomain.com",
       precisionhealth: "precision@yourdomain.com",
@@ -115,17 +114,27 @@
       praxhub: "praxhub@yourdomain.com"
     };
 
-    function handleSubmit(e) {
+    document.getElementById('enquiryForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const form = e.target;
-      const brand = form.brand.value;
-      const mailto = `mailto:${brandToEmail[brand]}?subject=AXE%20Health%20Enquiry&body=Name:%20${encodeURIComponent(form.name.value)}%0AEmail:%20${encodeURIComponent(form.email.value)}%0AMessage:%20${encodeURIComponent(form.message.value)}`;
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      const brand = document.getElementById('brand').value;
+      const recipient = brandEmails[brand];
+
+      if (!recipient) {
+        alert("Please select a brand.");
+        return;
+      }
+
+      const mailto = `mailto:${recipient}?subject=AXE Health Enquiry&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0AMessage: ${encodeURIComponent(message)}`;
       window.location.href = mailto;
+
       setTimeout(() => {
-        window.location.href = form.action;
-      }, 500);
-      return false;
-    }
+        window.location.href = "thank-you.html";
+      }, 300);
+    });
   </script>
 </body>
 </html>
